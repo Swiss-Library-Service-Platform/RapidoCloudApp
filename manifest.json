@@ -3,7 +3,7 @@
    "title": "RapidoCloudApp",
    "subtitle": "Retrieve user information across IZs",
    "author": "SLSP",
-      "contentSecurity": {
+   "contentSecurity": {
       "connectSrc": [
          "https://localhost:5005"
       ]

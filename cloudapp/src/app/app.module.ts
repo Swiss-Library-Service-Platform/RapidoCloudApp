@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule, CloudAppTranslateModule, AlertModule } from '@exlibris/exl-cloudapp-angular-lib';
+import { FilterByTypePipe } from './pipes/filter-by-types.pipe';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,7 +14,8 @@ import { MainComponent } from './main/main.component';
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent
+    MainComponent,
+    FilterByTypePipe
   ],
   imports: [
     MaterialModule,
@@ -23,7 +25,7 @@ import { MainComponent } from './main/main.component';
     HttpClientModule,
     AlertModule,
     FormsModule,
-    ReactiveFormsModule,     
+    ReactiveFormsModule,
     CloudAppTranslateModule.forRoot(),
   ],
   providers: [
