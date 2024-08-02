@@ -15,12 +15,6 @@ textarea {
   display: block;
 }
 
-textarea,
-section,
-.mat-card {
-  margin-bottom: 20px;
-}
-
 pre {
   overflow: auto;
   max-height: 200px;
@@ -31,4 +25,25 @@ pre {
 pre,
 textarea {
   font-size: 0.9em;
+}
+
+.mainmenu-link {
+  color: var(--slsp-purple);
+}
+
+.select-entities {
+  padding-top: 1rem;
+}
+
+.user-not-allowed,
+.institution-now-allowed {
+  padding-top: 1rem;
+
+  h1 {
+    display: flex;
+
+    .mat-icon {
+      margin-right: 4px;
+    }
+  }
 }

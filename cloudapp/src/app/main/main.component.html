@@ -1,46 +1,34 @@
-<div *ngIf="(entities$ | async | filterByType:'LENDING_REQUEST') as entities">
-  <ng-container *ngIf="entities.length > 0; then entityList; else noEntities"></ng-container>
-  <ng-template #noEntities>
-    <p>Please navigate to a page with lending requests</p>
-  </ng-template>
-
-  <ng-template #entityList>
-    <ng-container *ngIf="selectedEntity">
-      <!-- There is an entity selected so show the entity information -->
-      <h1>Selected Entity Information</h1>
-      <div class="eca-actions">
-        <button mat-flat-button color="secondary" [disabled]="true">Request User Information</button>
-        <button mat-flat-button color="secondary" (click)="clear()" [disabled]="!selectedEntity">Clear</button>
-      </div>
-      <mat-card [style.display]="apiResult ? '' : 'none'">
-        <mat-card-header>
-          <mat-card-title>API Result</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <textarea #apiResultArea [value]="apiResult | json"></textarea>
-        </mat-card-content>
-      </mat-card>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Selected Entity</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <pre>{{selectedEntity | json}}</pre>
-        </mat-card-content>
-      </mat-card>
-    </ng-container>
-    <ng-container *ngIf="!selectedEntity">
-      <!-- There is no entity selected so show all entities as selectable -->
-      <h1>Borrowing Requests</h1>
-      <mat-radio-group aria-labelledby="entities-radio-group-label" class="entities-radio-group"
-        [(ngModel)]="selectedEntity" (change)="entitySelected($event)">
-        <mat-radio-button *ngFor="let entity of entities" [value]="entity">
-          {{entity.description}}
-        </mat-radio-button>
-      </mat-radio-group>
-    </ng-container>
-  </ng-template>
-</div>
-<div class="loading-shade" *ngIf="loading">
+<!-- Loading Spinner -->
+<div class="loading-shade" *ngIf="loader.isLoading | async">
   <mat-spinner diameter="50"></mat-spinner>
+  <p class="loading-info">{{ status.message | async }}</p>
 </div>
+
+<!-- Tab / Main View -->
+<ng-container *ngIf="isInitialized && isLibraryAllowed">
+  <mat-tab-group mat-stretch-tabs>
+    <mat-tab label="Request ID">
+      <app-request-id></app-request-id>
+    </mat-tab>
+    <mat-tab label="Selection List">
+      <app-selection-list></app-selection-list>
+    </mat-tab>
+  </mat-tab-group>
+</ng-container>
+
+<!-- Access Denied -->
+<ng-container *ngIf="isInitialized && !isLibraryAllowed">
+  <div class="institution-now-allowed">
+    <h1>
+      <mat-icon inline=true>error</mat-icon>
+      {{ 'Welcome.AccessDenied' | translate }}
+    </h1>
+    <p>
+      {{ 'Welcome.InstitutionDenied1' | translate }}
+      <a href="https://slsp.ch/en/contact">
+        {{ 'Welcome.InstitutionDenied2' | translate }}
+      </a>
+      {{ 'Welcome.InstitutionDenied3' | translate }}
+    </p>
+  </div>
+</ng-container>

@@ -1,48 +1,60 @@
-import { Observable } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CloudAppRestService, CloudAppEventsService, Entity, AlertService } from '@exlibris/exl-cloudapp-angular-lib';
-import { MatRadioChange } from '@angular/material/radio';
+import { Component, OnInit } from '@angular/core';
+import { BackendService } from '../services/backend.service';
+import { LoadingIndicatorService } from '../services/loading-indicator.service';
+import { StatusIndicatorService } from '../services/status-indicator.service';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit, OnDestroy {
 
-  loading = false;
-  selectedEntity: Entity;
-  apiResult: any;
-
-  entities$: Observable<Entity[]> = this.eventsService.entities$
-    .pipe(tap(() => this.clear()))
+export class MainComponent implements OnInit {
+  isLibraryAllowed: boolean = false;
+  isInitialized: boolean = false;
 
   constructor(
-    private restService: CloudAppRestService,
-    private eventsService: CloudAppEventsService,
-    private alert: AlertService
+    private backendService: BackendService,
+    private _loader: LoadingIndicatorService,
+    private _status: StatusIndicatorService,
+    private translateService: TranslateService,
   ) { }
 
-  ngOnInit() {
+  /**
+   * Getter for LoadingIndicatorService instance.
+   * @returns LoadingIndicatorService instance
+   */
+  get loader(): LoadingIndicatorService {
+    return this._loader;
   }
 
-  ngOnDestroy(): void {
+  /**
+   * Getter for StatusIndicatorService instance.
+   * @returns StatusIndicatorService instance
+   */
+  get status(): StatusIndicatorService {
+    return this._status;
   }
 
-  entitySelected(event: MatRadioChange) {
-    const value = event.value as Entity;
-    this.loading = true;
-    this.restService.call<any>(value.link)
-      .pipe(finalize(() => this.loading = false))
-      .subscribe(
-        result => this.apiResult = result,
-        error => this.alert.error('Failed to retrieve entity: ' + error.message)
-      );
-  }
 
-  clear() {
-    this.apiResult = null;
-    this.selectedEntity = null;
+  async ngOnInit(): Promise<void> {
+    this.loader.show();
+    const statusText = await this.translateService.get('Main.Status.Initializing').toPromise();
+    this.status.set(statusText);
+
+    this.backendService.init().then(() => {
+      this.backendService.checkIfLibraryAllowed().then(allowed => {
+        this.isLibraryAllowed = allowed;
+        console.log('MainComponent: ngOnInit: allowed', allowed);
+      }).catch(error => {
+        console.log('MainComponent: ngOnInit: error', error);
+        this.isLibraryAllowed = false;
+      }).finally(() => {
+        this.isInitialized = true;
+        this.loader.hide();
+      });
+    });
   }
 }

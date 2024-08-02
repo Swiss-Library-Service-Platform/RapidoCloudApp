@@ -5,7 +5,7 @@
    "author": "SLSP",
    "contentSecurity": {
       "connectSrc": [
-         "https://localhost:5005"
+         "http://localhost:4201"
       ]
    }
 }

@@ -1,0 +1,18 @@
+{
+    "Main": {
+        "Requests": "Requests",
+        "Today": "Today",
+        "History": "History",
+        "Search": "Search",
+        "Status": {
+            "Initializing": "Initializing..."
+        }
+    },
+    "Welcome": {
+        "Welcome": "Welcome to SLSP to 7DM!",
+        "AccessDenied": "Access denied",
+        "InstitutionDenied1": "Unfortunately your institution does not have the permission to use this app. Please ",
+        "InstitutionDenied2": "contact SLSP ",
+        "InstitutionDenied3": "if you have any questions."
+    }
+}

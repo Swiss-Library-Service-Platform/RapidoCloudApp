@@ -10,12 +10,16 @@ import { FilterByTypePipe } from './pipes/filter-by-types.pipe';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
+import { RequestIdComponent } from './request-id/request-id.component';
+import { SelectionListComponent } from './selection-list/selection-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    FilterByTypePipe
+    FilterByTypePipe,
+    RequestIdComponent,
+    SelectionListComponent
   ],
   imports: [
     MaterialModule,
