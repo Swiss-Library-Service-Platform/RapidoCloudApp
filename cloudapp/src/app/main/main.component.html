@@ -4,16 +4,9 @@
   <p class="loading-info">{{ status.message | async }}</p>
 </div>
 
-<!-- Tab / Main View -->
+<!-- Main View -->
 <ng-container *ngIf="isInitialized && isLibraryAllowed">
-  <mat-tab-group mat-stretch-tabs>
-    <mat-tab label="Request ID">
-      <app-request-id></app-request-id>
-    </mat-tab>
-    <mat-tab label="Selection List">
-      <app-selection-list></app-selection-list>
-    </mat-tab>
-  </mat-tab-group>
+  <app-request-id></app-request-id>
 </ng-container>
 
 <!-- Access Denied -->
