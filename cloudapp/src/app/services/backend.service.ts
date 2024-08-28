@@ -76,4 +76,25 @@ export class BackendService {
             );
         });
     }
+
+    /**
+     * Checks if the library is allowed to use the cloud app
+     *
+     * @returns {Promise<object>}
+     */
+    async retrieveUserInformation(externalId: string): Promise<object> {
+        return new Promise(resolve => {
+            externalId = encodeURIComponent(externalId);
+            this.http.get(`${this.baseUrl}/user/${externalId}`, this.httpOptions).subscribe(
+                (data: any) => {
+                    console.log(data);
+                    resolve(data);
+                },
+                error => {
+                    console.warn(error);
+                    resolve(null);
+                },
+            );
+        });
+    }
 }
