@@ -45,7 +45,7 @@ export class MainComponent implements OnInit {
     this.status.set(statusText);
 
     this.backendService.init().then(() => {
-      this.backendService.checkIfLibraryAllowed().then(allowed => {
+      this.backendService.checkIfInstitutionAllowed().then(allowed => {
         this.isLibraryAllowed = allowed;
         console.log('MainComponent: ngOnInit: allowed', allowed);
       }).catch(error => {

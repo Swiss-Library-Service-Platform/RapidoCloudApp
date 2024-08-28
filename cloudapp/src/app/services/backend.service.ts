@@ -63,7 +63,7 @@ export class BackendService {
      *
      * @returns {Promise<boolean>}
      */
-    async checkIfLibraryAllowed(): Promise<boolean> {
+    async checkIfInstitutionAllowed(): Promise<boolean> {
         return new Promise(resolve => {
             this.http.get(`${this.baseUrl}/allowed`, this.httpOptions).subscribe(
                 (data: any) => {
