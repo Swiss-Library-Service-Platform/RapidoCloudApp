@@ -7,4 +7,14 @@
     <button mat-icon-button (click)="onClickRetrieveUserInformation()">
         <mat-icon>search</mat-icon>
     </button>
+
+    <ng-container *ngIf="userInformation" class="table-wrapper">
+        <table class="table">
+            <tr>
+                <th scope="row">{{ 'Requests.UserInformation.PrimaryId' | translate }}</th>
+                <td>{{userInformation.primary_id}}</td>
+            </tr>
+
+        </table>
+    </ng-container>
 </ng-container>

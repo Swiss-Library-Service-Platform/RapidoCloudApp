@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { LoadingIndicatorService } from '../../services/loading-indicator.service';
 import { StatusIndicatorService } from '../../services/status-indicator.service';
+import { UserInformation } from '../../models/UserInformation';
 
 @Component({
   selector: 'app-request-id',
@@ -10,6 +11,7 @@ import { StatusIndicatorService } from '../../services/status-indicator.service'
 })
 export class RequestIdComponent implements OnInit {
   inputRequestId: string = "";
+  userInformation: UserInformation;
 
   constructor(
     private backendService: BackendService,
@@ -33,12 +35,13 @@ export class RequestIdComponent implements OnInit {
   }
 
   onClickRetrieveUserInformation(): void {
-    console.log("I was clicked " + this.inputRequestId);
+    this._loader.show();
     this.backendService.retrieveUserInformation(this.inputRequestId).then(response => {
-      console.log(response);
+      this.userInformation = response;
     }).catch(error => {
+      this.userInformation = null;
       console.log("ERROR: " + error);
-    })
+    }).finally(() => this._loader.hide())
   }
 
   ngOnInit(): void {
