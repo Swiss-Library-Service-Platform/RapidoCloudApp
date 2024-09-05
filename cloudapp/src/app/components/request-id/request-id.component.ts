@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BackendService } from '../services/backend.service';
-import { LoadingIndicatorService } from '../services/loading-indicator.service';
-import { StatusIndicatorService } from '../services/status-indicator.service';
+import { BackendService } from '../../services/backend.service';
+import { LoadingIndicatorService } from '../../services/loading-indicator.service';
+import { StatusIndicatorService } from '../../services/status-indicator.service';
 
 @Component({
   selector: 'app-request-id',

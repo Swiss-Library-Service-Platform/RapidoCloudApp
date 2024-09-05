@@ -8,8 +8,8 @@ import { MaterialModule, CloudAppTranslateModule, AlertModule } from '@exlibris/
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MainComponent } from './main/main.component';
-import { RequestIdComponent } from './request-id/request-id.component';
+import { MainComponent } from './components/main/main.component';
+import { RequestIdComponent } from './components/request-id/request-id.component';
 
 @NgModule({
   declarations: [
