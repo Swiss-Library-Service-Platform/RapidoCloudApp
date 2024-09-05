@@ -9,10 +9,15 @@
         }
     },
     "Welcome": {
-        "Welcome": "Welcome to SLSP to 7DM!",
+        "Welcome": "Welcome Rapido user information by SLSP!",
         "AccessDenied": "Access denied",
         "InstitutionDenied1": "Unfortunately your institution does not have the permission to use this app. Please ",
         "InstitutionDenied2": "contact SLSP ",
         "InstitutionDenied3": "if you have any questions."
+    },
+    "Requests": {
+        "UserInformation": {
+            "PrimaryId": "primary ID"
+        }
     }
 }

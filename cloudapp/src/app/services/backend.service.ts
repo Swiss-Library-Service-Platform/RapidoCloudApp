@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CloudAppEventsService, Entity, AlertService, CloudAppRestService } from '@exlibris/exl-cloudapp-angular-lib';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { UserInformation } from '../models/UserInformation';
 
 /**
  * Service which is responsible for all outgoing API calls in this cloud app
@@ -78,15 +79,15 @@ export class BackendService {
     }
 
     /**
-     * Checks if the library is allowed to use the cloud app
+     * Retrieves the user information of a request
      *
-     * @returns {Promise<object>}
+     * @returns {Promise<UserInformation>}
      */
-    async retrieveUserInformation(externalId: string): Promise<object> {
+    async retrieveUserInformation(externalId: string): Promise<UserInformation> {
         return new Promise(resolve => {
             externalId = encodeURIComponent(externalId);
-            this.http.get(`${this.baseUrl}/user/${externalId}`, this.httpOptions).subscribe(
-                (data: any) => {
+            this.http.get<UserInformation>(`${this.baseUrl}/user/${externalId}`, this.httpOptions).subscribe(
+                (data: UserInformation) => {
                     console.log(data);
                     resolve(data);
                 },
