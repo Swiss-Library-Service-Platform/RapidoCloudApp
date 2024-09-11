@@ -17,7 +17,8 @@
     },
     "Requests": {
         "UserInformation": {
-            "PrimaryId": "primary ID"
+            "PrimaryId": "primary ID",
+            "Email": "e-mail"
         }
     }
 }
