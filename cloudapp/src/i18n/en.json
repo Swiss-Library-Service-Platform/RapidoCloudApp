@@ -18,7 +18,8 @@
     "Requests": {
         "UserInformation": {
             "PrimaryId": "primary ID",
-            "Email": "e-mail"
+            "Email": "e-mail",
+            "Note": "note"
         }
     }
 }

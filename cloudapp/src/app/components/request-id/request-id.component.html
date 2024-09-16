@@ -14,9 +14,13 @@
                 <th scope="row">{{ 'Requests.UserInformation.PrimaryId' | translate }}</th>
                 <td>{{userInformation.primary_id}}</td>
             </tr>
-            <tr>
+            <tr *ngIf="userInformation.email">
                 <th scope="row">{{ 'Requests.UserInformation.Email' | translate }}</th>
                 <td>{{userInformation.email}}</td>
+            </tr>
+            <tr *ngIf="userInformation.note">
+                <th scope="row">{{ 'Requests.UserInformation.Note' | translate }}</th>
+                <td>{{userInformation.note}}</td>
             </tr>
         </table>
     </ng-container>
