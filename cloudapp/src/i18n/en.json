@@ -32,7 +32,9 @@
             "UNAUTHORIZED": "Your IZ is not authorized to use this resource",
             "UNSUPPORTED_REQUEST_TYPE": "Malformed request ID",
             "UNSUPPORTED_ID": "The IZ ID of the provided request cannot be processed",
-            "MISSING_API_KEY": "Missing API key in the backend"
+            "MISSING_API_KEY": "Missing API key in the backend",
+            "MISSING_RESOURCE_SHARING_INFORMATION": "Could not retrieve resource sharing information from borrowing library",
+            "MISSING_USER_INFORMATION": "Could not retrieve user information from borrowing library"
         }
     }
 }
