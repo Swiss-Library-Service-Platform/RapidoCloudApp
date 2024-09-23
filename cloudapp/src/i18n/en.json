@@ -20,6 +20,19 @@
             "PrimaryId": "primary ID",
             "Email": "e-mail",
             "Note": "note"
+        },
+        "Support": {
+            "Contact1": "Please ",
+            "Contact2": "contact support",
+            "Contact3": "with the following error code if you have any questions."
+        },
+        "Error": {
+            "INTERNAL_SERVER_ERROR": "There has been an unforeseen error",
+            "DEFAULT": "There has been an unforeseen error",
+            "UNAUTHORIZED": "Your IZ is not authorized to use this resource",
+            "UNSUPPORTED_REQUEST_TYPE": "Malformed request ID",
+            "UNSUPPORTED_ID": "The IZ ID of the provided request cannot be processed",
+            "MISSING_API_KEY": "Missing API key in the backend"
         }
     }
 }

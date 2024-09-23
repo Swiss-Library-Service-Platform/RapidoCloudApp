@@ -1,27 +1,43 @@
-<ng-container>
-    <mat-form-field>
-        <mat-label>External ID</mat-label>
-        <input matInput (keyup.enter)="onClickRetrieveUserInformation()" placeholder="1//41SLSPABC012345" type="text"
-            [(ngModel)]="inputRequestId">
-    </mat-form-field>
-    <button mat-icon-button (click)="onClickRetrieveUserInformation()">
-        <mat-icon>search</mat-icon>
-    </button>
+<mat-form-field>
+    <mat-label>External ID</mat-label>
+    <input matInput (keyup.enter)="onClickRetrieveUserInformation()" placeholder="1//41SLSPABC012345" type="text"
+        [(ngModel)]="inputRequestId">
+</mat-form-field>
+<button mat-icon-button (click)="onClickRetrieveUserInformation()">
+    <mat-icon>search</mat-icon>
+</button>
 
-    <ng-container *ngIf="userInformation" class="table-wrapper">
-        <table class="table">
-            <tr>
-                <th scope="row">{{ 'Requests.UserInformation.PrimaryId' | translate }}</th>
-                <td>{{userInformation.primary_id}}</td>
-            </tr>
-            <tr *ngIf="userInformation.email">
-                <th scope="row">{{ 'Requests.UserInformation.Email' | translate }}</th>
-                <td>{{userInformation.email}}</td>
-            </tr>
-            <tr *ngIf="userInformation.note">
-                <th scope="row">{{ 'Requests.UserInformation.Note' | translate }}</th>
-                <td>{{userInformation.note}}</td>
-            </tr>
-        </table>
-    </ng-container>
+<ng-container *ngIf="userInformation" class="table-wrapper">
+    <table class="table">
+        <tr>
+            <th scope="row">{{ 'Requests.UserInformation.PrimaryId' | translate }}</th>
+            <td>{{userInformation.primary_id}}</td>
+        </tr>
+        <tr *ngIf="userInformation.email">
+            <th scope="row">{{ 'Requests.UserInformation.Email' | translate }}</th>
+            <td>{{userInformation.email}}</td>
+        </tr>
+        <tr *ngIf="userInformation.note">
+            <th scope="row">{{ 'Requests.UserInformation.Note' | translate }}</th>
+            <td>{{userInformation.note}}</td>
+        </tr>
+    </table>
 </ng-container>
+
+<!-- Failed Request -->
+<div class="request-failed" *ngIf="responseErrorId">
+    <h1>
+        <mat-icon color="warn" inline=true>error</mat-icon>
+        {{ responseErrorMessage }}
+    </h1>
+    <p>
+        {{ 'Requests.Support.Contact1' | translate }}
+        <a href="https://slsp.ch/en/contact">
+            {{ 'Requests.Support.Contact2' | translate }}
+        </a>
+        {{ 'Requests.Support.Contact3' | translate }}
+        <br>
+        <br>
+        {{ responseErrorId }}
+    </p>
+</div>

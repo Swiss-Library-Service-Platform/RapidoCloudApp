@@ -84,7 +84,7 @@ export class BackendService {
      * @returns {Promise<UserInformation>}
      */
     async retrieveUserInformation(externalId: string): Promise<UserInformation> {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             externalId = encodeURIComponent(externalId);
             this.http.get<UserInformation>(`${this.baseUrl}/user/${externalId}`, this.httpOptions).subscribe(
                 (data: UserInformation) => {
@@ -93,7 +93,7 @@ export class BackendService {
                 },
                 error => {
                     console.warn(error);
-                    resolve(null);
+                    reject(error);
                 },
             );
         });
