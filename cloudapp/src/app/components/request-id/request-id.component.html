@@ -1,13 +1,16 @@
-<mat-form-field>
-    <mat-label>External ID</mat-label>
-    <input matInput (keyup.enter)="onClickRetrieveUserInformation()" placeholder="1//41SLSPABC012345" type="text"
-        [(ngModel)]="inputRequestId">
-</mat-form-field>
-<button mat-icon-button (click)="onClickRetrieveUserInformation()">
-    <mat-icon>search</mat-icon>
-</button>
+<div class="input-wrapper">
+    <mat-form-field>
+        <mat-label>External ID</mat-label>
+        <input matInput (keyup.enter)="onClickRetrieveUserInformation()" placeholder="1//41SLSPABC012345" type="text"
+            [(ngModel)]="inputRequestId">
+    </mat-form-field>
+    <button mat-icon-button (click)="onClickRetrieveUserInformation()">
+        <mat-icon>search</mat-icon>
+    </button>
+    
+</div>
 
-<ng-container *ngIf="userInformation" class="table-wrapper">
+<div *ngIf="userInformation" class="table-wrapper">
     <table class="table">
         <tr>
             <th scope="row">{{ 'Requests.UserInformation.PrimaryId' | translate }}</th>
@@ -22,7 +25,7 @@
             <td>{{userInformation.note}}</td>
         </tr>
     </table>
-</ng-container>
+</div>
 
 <!-- Failed Request -->
 <div class="request-failed" *ngIf="responseErrorId">

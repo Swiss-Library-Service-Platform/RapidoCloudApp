@@ -1,3 +1,10 @@
+.input-wrapper {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 1rem;
+    align-items: center;
+}
+
 .table-wrapper {
     display: flex;
     flex-direction: row;
@@ -5,13 +12,7 @@
     width: 100%;
 }
 
-.table-actions {
-    display: flex;
-    flex-direction: column;
-}
-
 .request-failed {
-    padding-top: 1rem;
     white-space: pre-line;
 
     h1 {
@@ -36,20 +37,19 @@
         background-color: #ffffff;
     }
 
-    td {
-        width: 100%;
-    }
-
-    th,
-    td {
-        padding: 5px;
-        text-align: left;
-    }
-
     th,
     td {
         border: 1px solid #000;
         padding: 4px;
         text-align: left;
+    }
+
+    th {
+        white-space: nowrap;
+        padding-right: 1rem;
+    }
+
+    td {
+        width: 100%;
     }
 }

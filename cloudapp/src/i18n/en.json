@@ -1,15 +1,11 @@
 {
     "Main": {
-        "Requests": "Requests",
-        "Today": "Today",
-        "History": "History",
-        "Search": "Search",
         "Status": {
             "Initializing": "Initializing..."
         }
     },
     "Welcome": {
-        "Welcome": "Welcome Rapido user information by SLSP!",
+        "Welcome": "Welcome to Rapido User Information by SLSP!",
         "AccessDenied": "Access denied",
         "InstitutionDenied1": "Unfortunately your institution does not have the permission to use this app. Please ",
         "InstitutionDenied2": "contact SLSP ",
@@ -17,9 +13,9 @@
     },
     "Requests": {
         "UserInformation": {
-            "PrimaryId": "primary ID",
-            "Email": "e-mail",
-            "Note": "note"
+            "PrimaryId": "Primary ID",
+            "Email": "E-Mail",
+            "Note": "Note"
         },
         "Support": {
             "Contact1": "Please ",
@@ -27,14 +23,14 @@
             "Contact3": "with the following error code if you have any questions."
         },
         "Error": {
-            "INTERNAL_SERVER_ERROR": "There has been an unforeseen error",
-            "DEFAULT": "There has been an unforeseen error",
-            "UNAUTHORIZED": "Your IZ is not authorized to use this resource",
-            "UNSUPPORTED_REQUEST_TYPE": "Malformed request ID",
-            "UNSUPPORTED_ID": "The IZ ID of the provided request cannot be processed",
-            "MISSING_API_KEY": "Missing API key in the backend",
-            "MISSING_RESOURCE_SHARING_INFORMATION": "Could not retrieve resource sharing information from borrowing library",
-            "MISSING_USER_INFORMATION": "Could not retrieve user information from borrowing library"
+            "INTERNAL_SERVER_ERROR": "There has been an unforeseen error.",
+            "DEFAULT": "There has been an unforeseen error.",
+            "UNAUTHORIZED": "Your IZ is not authorized to use this resource.",
+            "UNSUPPORTED_REQUEST_TYPE": "Malformed request ID.",
+            "UNSUPPORTED_ID": "The IZ ID of the provided request cannot be processed.",
+            "MISSING_API_KEY": "Missing API key in the backend.",
+            "MISSING_RESOURCE_SHARING_INFORMATION": "Could not retrieve resource sharing information from borrowing library.",
+            "MISSING_USER_INFORMATION": "Could not retrieve user information from borrowing library."
         }
     }
 }
