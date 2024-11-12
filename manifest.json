@@ -1,11 +1,17 @@
 {
-   "id": "rapido-cloud-app",
-   "title": "RapidoCloudApp",
-   "subtitle": "Retrieve user information across IZs",
+   "id": "slsp-rapido-cloud-app",
+   "title": "SLSP Rapido Cloudapp (Beta)",
+   "subtitle": "Retrieve rapido user information across IZs",
    "author": "SLSP",
    "contentSecurity": {
       "connectSrc": [
          "http://localhost:4201"
-      ]
-   }
+      ],
+      "sandbox": {
+         "popups": true
+      }
+   },
+   "relevantForInst": [
+      "41SLSP_FNW"
+   ]
 }
