@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CloudAppEventsService, Entity, AlertService, CloudAppRestService } from '@exlibris/exl-cloudapp-angular-lib';
+import { CloudAppEventsService, Entity, AlertService, CloudAppRestService, InitData } from '@exlibris/exl-cloudapp-angular-lib';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UserInformation } from '../models/UserInformation';
 
@@ -41,11 +41,11 @@ export class BackendService {
      * @return {*}  {Promise<void>}
      * @memberof LibraryManagementService
      */
-    async init(): Promise<void> {
+    async init(initData: InitData): Promise<void> {
         if (this.isInitialized) {
             return;
         }
-        this.initData = await this.eventsService.getInitData().toPromise();
+        this.initData = initData;
         let regExp = new RegExp('^.*localhost.*'), // contains "localhost"
             currentUrl = this.initData["urls"]["alma"];
         this.isDevelopmentEnvironment = regExp.test(currentUrl);

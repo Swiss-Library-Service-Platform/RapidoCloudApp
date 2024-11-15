@@ -4,25 +4,53 @@
   <p class="loading-info">{{ status.message | async }}</p>
 </div>
 
-<!-- Main View -->
-<ng-container *ngIf="isInitialized && isLibraryAllowed">
-  <h1>{{ 'Welcome.Welcome' | translate }}</h1>
-  <app-request-id></app-request-id>
-</ng-container>
+<!-- Is Initizalized -->
+<ng-container *ngIf="isInitialized">
+  <!-- User has roles -->
+  <ng-container *ngIf="isUserHasRoles">
+    <!-- Library Allowed -->
+    <ng-container *ngIf="isLibraryAllowed">
+      <h1>{{ 'Welcome.Welcome' | translate }}</h1>
+      <app-request-id></app-request-id>
+    </ng-container>
 
-<!-- Access Denied -->
-<ng-container *ngIf="isInitialized && !isLibraryAllowed">
-  <div class="institution-now-allowed">
-    <h1>
-      <mat-icon inline=true>error</mat-icon>
-      {{ 'Welcome.AccessDenied' | translate }}
-    </h1>
-    <p>
-      {{ 'Welcome.InstitutionDenied1' | translate }}
-      <a href="https://slsp.ch/en/contact">
-        {{ 'Welcome.InstitutionDenied2' | translate }}
-      </a>
-      {{ 'Welcome.InstitutionDenied3' | translate }}
-    </p>
-  </div>
+    <!-- Library Denied -->
+    <ng-container *ngIf="!isLibraryAllowed">
+      <div class="institution-now-allowed">
+        <h1>
+          <mat-icon inline=true>error</mat-icon>
+          {{ 'Welcome.AccessDenied' | translate }}
+        </h1>
+        <p>
+          {{ 'Welcome.InstitutionDenied1' | translate }}
+          <a href="https://slsp.ch/en/contact">
+            {{ 'Welcome.InstitutionDenied2' | translate }}
+          </a>
+          {{ 'Welcome.InstitutionDenied3' | translate }}
+        </p>
+      </div>
+    </ng-container>
+  </ng-container>
+  <!-- User has no roles -->
+  <ng-container *ngIf="!isUserHasRoles">
+    <div class="user-not-allowed">
+      <h1>
+        <mat-icon inline=true>error</mat-icon>
+        {{ 'Welcome.AccessDenied' | translate }}
+      </h1>
+      <p> {{ 'Welcome.NoRole' | translate }} </p>
+      <ul>
+        <li> {{ 'Welcome.Roles.FULFILLMENT_SERVICE_MANAGER' | translate }} </li>
+        <li> {{ 'Welcome.Roles.USER_MANAGER' | translate }} </li>
+        <li> {{ 'Welcome.Roles.GENERAL_SYSTEM_ADMIN' | translate }} </li>
+      </ul>
+      <p>
+        {{ 'Welcome.ContactSLSP.ContactInfo1' | translate }}
+        <a href="https://slsp.ch/en/contact" target="_blank">
+          {{ 'Welcome.ContactSLSP.ContactInfo2' | translate }}
+        </a>
+        {{ 'Welcome.ContactSLSP.ContactInfo3' | translate }}
+      </p>
+    </div>
+  </ng-container>
 </ng-container>

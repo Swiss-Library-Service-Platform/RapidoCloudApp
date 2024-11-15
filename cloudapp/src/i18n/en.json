@@ -9,7 +9,18 @@
         "AccessDenied": "Access denied",
         "InstitutionDenied1": "Unfortunately your institution does not have the permission to use this app. Please ",
         "InstitutionDenied2": "contact SLSP ",
-        "InstitutionDenied3": "if you have any questions."
+        "InstitutionDenied3": "if you have any questions.",
+        "NoRole": "Unfortunately you do not have the permission to use this app. In order to apply changes via this app, you need at least one of the following roles:",
+        "Roles": {
+            "FULFILLMENT_SERVICE_MANAGER": "Fulfillment Service Manager",
+            "USER_MANAGER": "User Manager",
+            "GENERAL_SYSTEM_ADMIN": "General System Administrator"
+        },
+        "ContactSLSP": {
+            "ContactInfo1": "Please ",
+            "ContactInfo2": "contact SLSP",
+            "ContactInfo3": "if you have any questions."
+        }
     },
     "Requests": {
         "Institution": "Institution (optional)",
