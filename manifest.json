@@ -5,7 +5,8 @@
    "author": "SLSP",
    "contentSecurity": {
       "connectSrc": [
-         "http://localhost:4201"
+         "http://localhost:4201",
+         "https://rapido-userdata.swisscovery.network"
       ],
       "sandbox": {
          "popups": true

@@ -12,11 +12,16 @@
         "InstitutionDenied3": "if you have any questions."
     },
     "Requests": {
+        "Institution": "Institution (optional)",
+        "UnsupportedIdMessage": "Please provide the borrowing IZ manually:",
         "UserInformation": {
             "PrimaryId": "Primary ID",
             "Email": "E-Mail",
             "Note": "Note"
         },
+        "RequestFound": "Request Information:",
+        "RequestId": "External ID*",
+        "SearchWithInstitution": "Search with institution",
         "Support": {
             "Contact1": "Please ",
             "Contact2": "contact support",
@@ -26,10 +31,10 @@
             "INTERNAL_SERVER_ERROR": "There has been an unforeseen error.",
             "DEFAULT": "There has been an unforeseen error.",
             "UNAUTHORIZED": "Your IZ is not authorized to use this resource.",
-            "UNSUPPORTED_REQUEST_TYPE": "Malformed request ID.",
+            "IZ_EXTRACTION_FAILED": "The borrowing IZ could not be determined. Please select an IZ manually.",
             "UNSUPPORTED_ID": "The IZ ID of the provided request cannot be processed.",
             "MISSING_API_KEY": "Missing API key in the backend.",
-            "MISSING_RESOURCE_SHARING_INFORMATION": "Could not retrieve resource sharing information from borrowing library.",
+            "MISSING_RESOURCE_SHARING_INFORMATION": "Could not find the resource sharing information in the borrowing IZ ({institution}).",
             "MISSING_USER_INFORMATION": "Could not retrieve user information from borrowing library."
         }
     }

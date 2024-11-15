@@ -17,7 +17,7 @@ export class BackendService {
     private isDevelopmentEnvironment: boolean = false;
     private isInitialized = false;
     private initData: Object;
-    private baseUrlProd: string = 'https://7dmproxy.swisscovery.network/api/v1';
+    private baseUrlProd: string = 'https://rapido-userdata.swisscovery.network/api/v1';
     private baseUrlEnv: string = 'http://localhost:4201/api/v1';
     httpOptions: {};
 
@@ -54,6 +54,7 @@ export class BackendService {
             headers: new HttpHeaders({
                 'Authorization': `Bearer ${authToken}`,
                 //'Content-Type': 'application/json'
+                'Accept': 'application/json'
             }),
             withCredentials: true
         };
@@ -83,16 +84,36 @@ export class BackendService {
      *
      * @returns {Promise<UserInformation>}
      */
-    async retrieveUserInformation(externalId: string): Promise<UserInformation> {
+    async retrieveUserInformation(externalId: string, institution: string = null): Promise<UserInformation> {
+        const params = new URLSearchParams();
+        if (institution) {
+            params.set('institution', institution);
+        }
         return new Promise((resolve, reject) => {
             externalId = encodeURIComponent(externalId);
-            this.http.get<UserInformation>(`${this.baseUrl}/user/${externalId}`, this.httpOptions).subscribe(
-                (data: UserInformation) => {
-                    console.log(data);
+            this.http.get(`${this.baseUrl}/user/${externalId}?${params.toString()}`, this.httpOptions).subscribe(
+                (data: any) => {
                     resolve(data);
                 },
                 error => {
-                    console.warn(error);
+                    reject(error);
+                },
+            );
+        });
+    }
+
+    /**
+     * Retrieve all institutions
+     * 
+     * @returns {Promise<String>}
+     */
+    async retrieveInstitutions(): Promise<string[]> {
+        return new Promise((resolve, reject) => {
+            this.http.get(`${this.baseUrl}/institutions`, this.httpOptions).subscribe(
+                (data: string[]) => {
+                    resolve(data);
+                },
+                error => {
                     reject(error);
                 },
             );

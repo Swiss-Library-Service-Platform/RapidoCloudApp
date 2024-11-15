@@ -1,28 +1,46 @@
 <div class="input-wrapper">
-    <mat-form-field>
-        <mat-label>External ID</mat-label>
-        <input matInput (keyup.enter)="onClickRetrieveUserInformation()" placeholder="1//41SLSPABC012345" type="text"
-            [(ngModel)]="inputRequestId">
-    </mat-form-field>
-    <button mat-icon-button (click)="onClickRetrieveUserInformation()">
-        <mat-icon>search</mat-icon>
-    </button>
-    
+    <div class="input-institution-wrapper">
+        <mat-form-field>
+            <mat-label>{{ 'Requests.Institution' | translate }}</mat-label>
+            <mat-select [(value)]="inputInstitutionId">
+                <mat-option>-</mat-option>
+                <mat-option *ngFor="let inst of institutionOptions" [value]="inst">
+                    {{ inst }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="input-request-wrapper">
+        <mat-form-field>
+            <mat-label>
+                {{ 'Requests.RequestId' | translate }}
+            </mat-label>
+            <input matInput (keyup.enter)="onClickRetrieveUserInformation()" placeholder="1//41SLSPABC012345"
+                type="text" [(ngModel)]="inputRequestId">
+        </mat-form-field>
+        <button mat-icon-button (click)="onClickRetrieveUserInformation()">
+            <mat-icon>search</mat-icon>
+        </button>
+    </div>
 </div>
 
-<div *ngIf="userInformation" class="table-wrapper">
+<div *ngIf="responseUser" class="table-wrapper">
+    <h1>
+        <mat-icon color="success" inline=true>check_circle</mat-icon>
+        {{ 'Requests.RequestFound' | translate }}
+    </h1>
     <table class="table">
         <tr>
             <th scope="row">{{ 'Requests.UserInformation.PrimaryId' | translate }}</th>
-            <td>{{userInformation.primary_id}}</td>
+            <td>{{responseUser.primary_id}}</td>
         </tr>
-        <tr *ngIf="userInformation.email">
+        <tr>
             <th scope="row">{{ 'Requests.UserInformation.Email' | translate }}</th>
-            <td>{{userInformation.email}}</td>
+            <td>{{responseUser.email}}</td>
         </tr>
-        <tr *ngIf="userInformation.note">
+        <tr>
             <th scope="row">{{ 'Requests.UserInformation.Note' | translate }}</th>
-            <td>{{userInformation.note}}</td>
+            <td>{{responseUser.note}}</td>
         </tr>
     </table>
 </div>
@@ -35,7 +53,7 @@
     </h1>
     <p>
         {{ 'Requests.Support.Contact1' | translate }}
-        <a href="https://slsp.ch/en/contact">
+        <a href="https://slsp.ch/en/contact" target="_blank">
             {{ 'Requests.Support.Contact2' | translate }}
         </a>
         {{ 'Requests.Support.Contact3' | translate }}

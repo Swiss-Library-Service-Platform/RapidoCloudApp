@@ -12,7 +12,11 @@ import { UserInformation } from '../../models/UserInformation';
 })
 export class RequestIdComponent implements OnInit {
   inputRequestId: string = "";
-  userInformation: UserInformation;
+  inputInstitutionId: string = null;
+
+  institutionOptions: string[] = [];
+
+  responseUser: UserInformation;
   responseErrorId: string;
   responseErrorMessage: string;
 
@@ -20,7 +24,12 @@ export class RequestIdComponent implements OnInit {
     private backendService: BackendService,
     private translateService: TranslateService,
     private _loader: LoadingIndicatorService,
-    private _status: StatusIndicatorService) { }
+    private _status: StatusIndicatorService) {
+
+    this.backendService.retrieveInstitutions().then(response => {
+      this.institutionOptions = response;
+    });
+  }
 
   /**
    * Getter for LoadingIndicatorService instance.
@@ -41,14 +50,16 @@ export class RequestIdComponent implements OnInit {
   onClickRetrieveUserInformation(): void {
     this._loader.show();
     this.responseErrorId = null;
-    this.userInformation = null;
+    this.responseUser = null;
 
-    this.backendService.retrieveUserInformation(this.inputRequestId).then(response => {
-      this.userInformation = response;
+    this.backendService.retrieveUserInformation(this.inputRequestId, this.inputInstitutionId).then(response => {
+      this.responseUser = response;
     }).catch(error => {
-      this.userInformation = null;
+      this.responseUser = null;
       if (error.error == null || !error.error.type || error.error.type == "DEFAULT") {
         this.responseErrorMessage = this.translateService.instant("Requests.Error.DEFAULT");
+      } else if (error.error.type == "MISSING_RESOURCE_SHARING_INFORMATION") {
+        this.responseErrorMessage = this.translateService.instant("Requests.Error.MISSING_RESOURCE_SHARING_INFORMATION", { institution: error.error.additionalInformation.institution });
       } else {
         this.responseErrorMessage = this.translateService.instant("Requests.Error." + error.error.type);
       }
