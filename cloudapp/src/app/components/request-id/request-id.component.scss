@@ -3,6 +3,7 @@
     flex-direction: column;
     padding-bottom: 1rem;
     align-items: center;
+    margin-right: 2rem;
 
     mat-form-field {
         width: 100%;
@@ -19,9 +20,20 @@
     .input-institution-wrapper {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        align-items: center;
         height: 100%;
         width: 100%;
+        gap: 1rem;
+        margin-bottom: 1rem;
+
+        button {
+            width: 100px;
+            background: var(--slsp-purple-light);
+            color: black;
+            border-radius: 5px;
+            border: 1px solid gray;
+            width: 100%;
+        }
     }
 }
 

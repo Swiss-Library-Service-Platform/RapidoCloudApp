@@ -1,15 +1,5 @@
 <div class="input-wrapper">
-    <div class="input-institution-wrapper">
-        <mat-form-field>
-            <mat-label>{{ 'Requests.Institution' | translate }}</mat-label>
-            <mat-select [(value)]="inputInstitutionId">
-                <mat-option>-</mat-option>
-                <mat-option *ngFor="let inst of institutionOptions" [value]="inst">
-                    {{ inst }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
+
     <div class="input-request-wrapper">
         <mat-form-field>
             <mat-label>
@@ -18,8 +8,26 @@
             <input matInput (keyup.enter)="onClickRetrieveUserInformation()" placeholder="1//41SLSPABC012345"
                 type="text" [(ngModel)]="inputRequestId">
         </mat-form-field>
+
+    </div>
+    <div class="input-institution-wrapper">
+        <mat-form-field>
+            <mat-label>{{ 'Requests.Institution' | translate }}</mat-label>
+            <mat-select [(value)]="inputInstitutionId">
+                <mat-option>
+                    <ngx-mat-select-search placeholderLabel="Search"
+                        noEntriesFoundLabel="No matching institutions found"
+                        [formControl]="instititutionFilterControl"></ngx-mat-select-search>
+                </mat-option>
+                <mat-option>-</mat-option>
+                <mat-option *ngFor="let inst of filteredInstitutions | async" [value]="inst.short_code">
+                    {{ inst.full_name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
         <button mat-icon-button (click)="onClickRetrieveUserInformation()">
             <mat-icon>search</mat-icon>
+            {{ 'Requests.Search' | translate }}
         </button>
     </div>
 </div>

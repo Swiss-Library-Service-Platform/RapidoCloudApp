@@ -4,6 +4,9 @@ import { BackendService } from '../../services/backend.service';
 import { LoadingIndicatorService } from '../../services/loading-indicator.service';
 import { StatusIndicatorService } from '../../services/status-indicator.service';
 import { UserInformation } from '../../models/UserInformation';
+import { FormControl } from '@angular/forms';
+import { ReplaySubject } from 'rxjs';
+import { Institution } from '../../models/Institution';
 
 @Component({
   selector: 'app-request-id',
@@ -12,9 +15,11 @@ import { UserInformation } from '../../models/UserInformation';
 })
 export class RequestIdComponent implements OnInit {
   inputRequestId: string = "";
-  inputInstitutionId: string = null;
+  inputInstitutionId: string = "";
 
-  institutionOptions: string[] = [];
+  institutionOptions: Institution[] = [];
+  instititutionFilterControl: FormControl = new FormControl('');
+  filteredInstitutions: ReplaySubject<Institution[]> = new ReplaySubject<Institution[]>(1);
 
   responseUser: UserInformation;
   responseErrorId: string;
@@ -28,7 +33,13 @@ export class RequestIdComponent implements OnInit {
 
     this.backendService.retrieveInstitutions().then(response => {
       this.institutionOptions = response;
+      this.filteredInstitutions.next(this.institutionOptions);
     });
+
+    this.instititutionFilterControl.valueChanges
+      .subscribe(() => {
+        this.filterInstitutions();
+      });
   }
 
   /**
@@ -66,6 +77,24 @@ export class RequestIdComponent implements OnInit {
 
       if (error.error != null) this.responseErrorId = error.error.error_id;
     }).finally(() => this._loader.hide())
+  }
+
+  protected filterInstitutions() {
+    if (!this.institutionOptions) {
+      return;
+    }
+    let search = this.instititutionFilterControl.value;
+    if (!search) {
+      this.filteredInstitutions.next(this.institutionOptions.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.filteredInstitutions.next(
+      this.institutionOptions.filter(iz => {
+        return iz.full_name.toLowerCase().indexOf(search) > -1;
+      })
+    );
   }
 
   ngOnInit(): void {

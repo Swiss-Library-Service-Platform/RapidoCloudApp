@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { CloudAppEventsService, Entity, AlertService, CloudAppRestService, InitData } from '@exlibris/exl-cloudapp-angular-lib';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UserInformation } from '../models/UserInformation';
+import { Institution } from '../models/Institution';
 
 /**
  * Service which is responsible for all outgoing API calls in this cloud app
@@ -84,14 +85,12 @@ export class BackendService {
      *
      * @returns {Promise<UserInformation>}
      */
-    async retrieveUserInformation(externalId: string, institution: string = null): Promise<UserInformation> {
+    async retrieveUserInformation(externalId: string, institution: string = ""): Promise<UserInformation> {
         const params = new URLSearchParams();
-        if (institution) {
-            params.set('institution', institution);
-        }
+        params.set("externalId", externalId);
+        params.set('institution', institution);
         return new Promise((resolve, reject) => {
-            externalId = encodeURIComponent(externalId);
-            this.http.get(`${this.baseUrl}/user/${externalId}?${params.toString()}`, this.httpOptions).subscribe(
+            this.http.get(`${this.baseUrl}/user?${params.toString()}`, this.httpOptions).subscribe(
                 (data: any) => {
                     resolve(data);
                 },
@@ -107,10 +106,10 @@ export class BackendService {
      * 
      * @returns {Promise<String>}
      */
-    async retrieveInstitutions(): Promise<string[]> {
+    async retrieveInstitutions(): Promise<Institution[]> {
         return new Promise((resolve, reject) => {
             this.http.get(`${this.baseUrl}/institutions`, this.httpOptions).subscribe(
-                (data: string[]) => {
+                (data: Institution[]) => {
                     resolve(data);
                 },
                 error => {

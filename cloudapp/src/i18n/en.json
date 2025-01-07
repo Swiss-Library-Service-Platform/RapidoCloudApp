@@ -23,7 +23,7 @@
         }
     },
     "Requests": {
-        "Institution": "Institution (optional)",
+        "Institution": "Borrowing IZ (optional)",
         "UnsupportedIdMessage": "Please provide the borrowing IZ manually:",
         "UserInformation": {
             "PrimaryId": "Primary ID",
@@ -32,6 +32,7 @@
         },
         "RequestFound": "Request Information:",
         "RequestId": "External ID*",
+        "Search": "Search",
         "SearchWithInstitution": "Search with institution",
         "Support": {
             "Contact1": "Please ",
@@ -43,10 +44,11 @@
             "DEFAULT": "There has been an unforeseen error.",
             "UNAUTHORIZED": "Your IZ is not authorized to use this resource.",
             "IZ_EXTRACTION_FAILED": "The borrowing IZ could not be determined. Please select an IZ manually.",
-            "UNSUPPORTED_ID": "The IZ ID of the provided request cannot be processed.",
+            "UNSUPPORTED_ID": "Unexpected error regarding borrowing institution.",
             "MISSING_API_KEY": "Missing API key in the backend.",
             "MISSING_RESOURCE_SHARING_INFORMATION": "Could not find the resource sharing information in the borrowing IZ ({institution}).",
-            "MISSING_USER_INFORMATION": "Could not retrieve user information from borrowing library."
+            "MISSING_USER_INFORMATION": "Could not retrieve user information from borrowing library.",
+            "NO_ID": "Please provide an external ID."
         }
     }
 }

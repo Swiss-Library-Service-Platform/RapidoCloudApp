@@ -12,6 +12,7 @@ import { MainComponent } from './components/main/main.component';
 import { RequestIdComponent } from './components/request-id/request-id.component';
 import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 import { TranslateLoader, TranslateModule, TranslateParser } from '@ngx-translate/core';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 export function getTranslateModuleWithICU() {
   return TranslateModule.forRoot({
@@ -41,7 +42,8 @@ export function getTranslateModuleWithICU() {
     FormsModule,
     ReactiveFormsModule,
     CloudAppTranslateModule.forRoot(),
-    getTranslateModuleWithICU()
+    getTranslateModuleWithICU(),
+    NgxMatSelectSearchModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'standard' } },
