@@ -1,9 +1,16 @@
 {
    "id": "slsp-rapido-cloud-app",
-   "title": "SLSP Rapido (Beta)",
+   "title": "SLSP Rapido",
    "subtitle": "Retrieve note field and user info for Rapido Document Delivery Requests",
    "author": "SLSP",
    "description": "This Cloud App can be used by Rapido lending libraries to extract the note field and the user info for a Rapido Document Delivery request.",
+   "pages": {
+      "help": "https://slsp.atlassian.net/wiki/spaces/PSI/pages/1477574675/Cloud+App+SLSP+Rapido"
+   },
+   "icon": {
+      "type": "url",
+      "value": "/assets/logo_text_left.png"
+   },
    "contentSecurity": {
       "connectSrc": [
          "http://localhost:4201",
