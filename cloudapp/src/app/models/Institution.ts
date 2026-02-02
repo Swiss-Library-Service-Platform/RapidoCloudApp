@@ -1,7 +1,6 @@
 export class Institution {
-    id: string;
     full_name: string;
-    abbreviation: string;
+    iz_abbreviation: string;
     short_code: string;
 
     constructor(init?: Partial<Institution>) {
