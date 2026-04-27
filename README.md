@@ -17,11 +17,11 @@ If the external IZ could not be determined by the external ID automatically, ple
 
 
 ## Issues and defects
-Please use the GitHub "Issues" of this repository to report any defects. We will have a look into it as soon as possible.
+For questions or to report an issue, please contact [SLSP Support](https://slsp.atlassian.net/servicedesk/customer/portal/1).
 
 ## Licence 
 [GNU Genereal Public Licence v3.0](https://github.com/Swiss-Library-Service-Platform/RapidoCloudApp/blob/main/LICENCE)
 
 ## Help and Support
 
-Please [contact SLSP](https://slsp.ch/en/contact) if you have any questions.
+Please contact [SLSP Support](https://slsp.atlassian.net/servicedesk/customer/portal/1) if you have any questions.
