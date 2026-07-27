@@ -1,72 +1,89 @@
 <div class="input-wrapper">
-
     <div class="input-request-wrapper">
         <mat-form-field>
             <mat-label>
                 {{ 'Requests.RequestId' | translate }}
             </mat-label>
-            <input matInput (keyup.enter)="onClickRetrieveUserInformation()" placeholder="1//41SLSPABC012345"
-                type="text" [(ngModel)]="inputRequestId">
+            <input matInput required [disabled]="isSearching"
+                (keyup.enter)="onClickRetrieveUserInformation()"
+                [ngModel]="inputRequestId"
+                (ngModelChange)="onRequestIdChanged($event)"
+                placeholder="e.g. 1//41SLSPABC012345 or 26940073"
+                type="text">
         </mat-form-field>
-
+        <p class="request-hint">{{ 'Requests.RequestIdHint' | translate }}</p>
     </div>
-    <div class="input-institution-wrapper">
+
+    <section class="institution-fallback" *ngIf="showManualInstitution"
+        role="status" aria-live="polite">
+        <div class="fallback-message">
+            <mat-icon aria-hidden="true">info</mat-icon>
+            <span>{{ 'Requests.ManualInstitutionRequired' | translate }}</span>
+        </div>
         <mat-form-field>
             <mat-label>{{ 'Requests.Institution' | translate }}</mat-label>
-            <mat-select [(value)]="inputInstitutionId">
+            <mat-select [(value)]="inputInstitutionId" [disabled]="isSearching">
                 <mat-option>
-                    <ngx-mat-select-search placeholderLabel="Search"
-                        noEntriesFoundLabel="No matching institutions found"
+                    <ngx-mat-select-search
+                        [placeholderLabel]="'Requests.InstitutionSearch' | translate"
+                        [noEntriesFoundLabel]="'Requests.InstitutionNoResults' | translate"
                         [formControl]="instititutionFilterControl"></ngx-mat-select-search>
                 </mat-option>
-                <mat-option>-</mat-option>
+                <mat-option [value]="''">—</mat-option>
                 <mat-option *ngFor="let inst of filteredInstitutions | async" [value]="inst.short_code">
                     {{ inst.full_name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <button mat-icon-button (click)="onClickRetrieveUserInformation()">
-            <mat-icon>search</mat-icon>
-            {{ 'Requests.Search' | translate }}
-        </button>
-    </div>
+    </section>
+
+    <button class="search-button" mat-flat-button color="primary" type="button"
+        [disabled]="isSearchDisabled"
+        (click)="onClickRetrieveUserInformation()">
+        <mat-icon aria-hidden="true">search</mat-icon>
+        <span>{{ (isSearching ? 'Requests.Searching' : 'Requests.Search') | translate }}</span>
+    </button>
 </div>
 
-<div *ngIf="responseUser" class="table-wrapper">
-    <h1>
-        <mat-icon color="success" inline=true>check_circle</mat-icon>
+<section *ngIf="responseUser" class="result-card" aria-live="polite">
+    <h1 class="card-heading success-heading">
+        <mat-icon aria-hidden="true">check_circle</mat-icon>
         {{ 'Requests.RequestFound' | translate }}
     </h1>
-    <table class="table">
-        <tr>
-            <th scope="row">{{ 'Requests.UserInformation.PrimaryId' | translate }}</th>
-            <td>{{responseUser.primary_id}}</td>
-        </tr>
-        <tr>
-            <th scope="row">{{ 'Requests.UserInformation.Email' | translate }}</th>
-            <td>{{responseUser.email}}</td>
-        </tr>
-        <tr>
-            <th scope="row">{{ 'Requests.UserInformation.Note' | translate }}</th>
-            <td>{{responseUser.note}}</td>
-        </tr>
-    </table>
-</div>
+    <dl class="result-details">
+        <dt>{{ 'Requests.UserInformation.BorrowingInstitution' | translate }}</dt>
+        <dd>{{ responseUser.borrowing_institution || '—' }}</dd>
+        <dt>{{ 'Requests.UserInformation.PrimaryId' | translate }}</dt>
+        <dd>{{ responseUser.primary_id || '—' }}</dd>
+        <dt>{{ 'Requests.UserInformation.Email' | translate }}</dt>
+        <dd>{{ responseUser.email || '—' }}</dd>
+        <dt>{{ 'Requests.UserInformation.Note' | translate }}</dt>
+        <dd>{{ responseUser.note || '—' }}</dd>
+    </dl>
+</section>
 
 <!-- Failed Request -->
-<div class="request-failed" *ngIf="responseErrorId">
-    <h1>
-        <mat-icon color="warn" inline=true>error</mat-icon>
-        {{ responseErrorMessage }}
-    </h1>
-    <p>
-        {{ 'Requests.Support.Contact1' | translate }}
-        <a href="https://slsp.ch/en/contact" target="_blank">
-            {{ 'Requests.Support.Contact2' | translate }}
-        </a>
-        {{ 'Requests.Support.Contact3' | translate }}
-        <br>
-        <br>
-        {{ responseErrorId }}
-    </p>
-</div>
+<section class="error-card" *ngIf="responseErrorMessage" role="alert" aria-live="assertive">
+    <div class="error-header">
+        <mat-icon aria-hidden="true">error_outline</mat-icon>
+        <h2>{{ responseErrorTitle }}</h2>
+    </div>
+    <p class="error-detail">{{ responseErrorMessage }}</p>
+    <div class="support-section">
+        <p class="support-message" *ngIf="responseErrorId">
+            {{ 'Requests.Support.Contact1' | translate }}
+            <a href="https://slsp.atlassian.net/servicedesk/customer/portal/1"
+                target="_blank" rel="noopener noreferrer">
+                {{ 'Requests.Support.Contact2' | translate }}
+            </a>
+            {{ 'Requests.Support.Contact3' | translate }}
+        </p>
+        <p class="support-id" *ngIf="responseErrorId">
+            <span>{{ 'Requests.Support.ErrorId' | translate }}:</span>
+            <code>{{ responseErrorId }}</code>
+        </p>
+        <p class="support-message" *ngIf="!responseErrorId">
+            {{ 'Requests.Support.NoErrorId' | translate }}
+        </p>
+    </div>
+</section>
