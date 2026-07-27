@@ -16,6 +16,8 @@ import { Institution } from '../../models/Institution';
 export class RequestIdComponent implements OnInit {
   inputRequestId: string = "";
   inputInstitutionId: string = "";
+  isSearching: boolean = false;
+  showManualInstitution: boolean = false;
 
   institutionOptions: Institution[] = [];
   instititutionFilterControl: FormControl = new FormControl('');
@@ -23,6 +25,7 @@ export class RequestIdComponent implements OnInit {
 
   responseUser: UserInformation;
   responseErrorId: string;
+  responseErrorTitle: string;
   responseErrorMessage: string;
 
   constructor(
@@ -58,25 +61,88 @@ export class RequestIdComponent implements OnInit {
     return this._status;
   }
 
+  get isSearchDisabled(): boolean {
+    return this.isSearching || !this.inputRequestId || !this.inputRequestId.trim();
+  }
+
+  onRequestIdChanged(requestId: string): void {
+    this.inputRequestId = requestId;
+    this.inputInstitutionId = "";
+    this.showManualInstitution = false;
+    this.responseErrorId = null;
+    this.responseErrorTitle = null;
+    this.responseErrorMessage = null;
+    this.responseUser = null;
+  }
+
   onClickRetrieveUserInformation(): void {
+    const requestId = (this.inputRequestId || "").trim();
+    if (!requestId || this.isSearching) {
+      return;
+    }
+
+    this.inputRequestId = requestId;
+    this.isSearching = true;
     this._loader.show();
     this.responseErrorId = null;
+    this.responseErrorTitle = null;
+    this.responseErrorMessage = null;
     this.responseUser = null;
 
-    this.backendService.retrieveUserInformation(this.inputRequestId, this.inputInstitutionId).then(response => {
+    this.backendService.retrieveUserInformation(requestId, this.inputInstitutionId).then(response => {
       this.responseUser = response;
+      this.inputInstitutionId = "";
+      this.showManualInstitution = false;
     }).catch(error => {
       this.responseUser = null;
-      if (error.error == null || !error.error.type || error.error.type == "DEFAULT") {
-        this.responseErrorMessage = this.translateService.instant("Requests.Error.DEFAULT");
-      } else if (error.error.type == "MISSING_RESOURCE_SHARING_INFORMATION") {
-        this.responseErrorMessage = this.translateService.instant("Requests.Error.MISSING_RESOURCE_SHARING_INFORMATION", { institution: error.error.additionalInformation.institution });
+      const backendError = error && error.error;
+      const errorType = backendError && backendError.type;
+      const upstreamStatus = Number(backendError
+        && backendError.additionalInformation
+        && backendError.additionalInformation.upstream_status);
+      const isAlmaLookupError = errorType == "MISSING_RESOURCE_SHARING_INFORMATION"
+        || errorType == "MISSING_USER_INFORMATION";
+
+      if (errorType == "IZ_EXTRACTION_FAILED") {
+        this.showManualInstitution = true;
+      } else if (isAlmaLookupError && (upstreamStatus == 401 || upstreamStatus == 403)) {
+        this.setError(
+          "Requests.ErrorTitle.AUTHORIZATION",
+          "Requests.Error.ALMA_UPSTREAM_AUTHORIZATION_ERROR");
+      } else if (isAlmaLookupError && upstreamStatus >= 500) {
+        this.setError(
+          "Requests.ErrorTitle.TEMPORARY",
+          "Requests.Error.ALMA_UPSTREAM_ERROR",
+          { status: upstreamStatus });
+      } else if (!errorType || errorType == "DEFAULT") {
+        this.setError("Requests.ErrorTitle.DEFAULT", "Requests.Error.DEFAULT");
+      } else if (errorType == "MISSING_RESOURCE_SHARING_INFORMATION") {
+        this.setError(
+          "Requests.ErrorTitle.REQUEST_NOT_FOUND",
+          "Requests.Error.MISSING_RESOURCE_SHARING_INFORMATION",
+          { institution: backendError.additionalInformation.institution });
+      } else if (errorType == "MISSING_USER_INFORMATION") {
+        this.setError(
+          "Requests.ErrorTitle.USER_UNAVAILABLE",
+          "Requests.Error.MISSING_USER_INFORMATION");
+      } else if (errorType == "UNAUTHORIZED") {
+        this.setError("Requests.ErrorTitle.ACCESS_DENIED", "Requests.Error.UNAUTHORIZED");
+      } else if (errorType == "MISSING_API_KEY") {
+        this.setError("Requests.ErrorTitle.CONFIGURATION", "Requests.Error.MISSING_API_KEY");
       } else {
-        this.responseErrorMessage = this.translateService.instant("Requests.Error." + error.error.type);
+        this.setError("Requests.ErrorTitle.DEFAULT", "Requests.Error." + errorType);
       }
 
-      if (error.error != null) this.responseErrorId = error.error.error_id;
-    }).finally(() => this._loader.hide())
+      if (backendError) this.responseErrorId = backendError.error_id;
+    }).finally(() => {
+      this.isSearching = false;
+      this._loader.hide();
+    })
+  }
+
+  private setError(titleKey: string, messageKey: string, params?: Object): void {
+    this.responseErrorTitle = this.translateService.instant(titleKey);
+    this.responseErrorMessage = this.translateService.instant(messageKey, params);
   }
 
   protected filterInstitutions() {

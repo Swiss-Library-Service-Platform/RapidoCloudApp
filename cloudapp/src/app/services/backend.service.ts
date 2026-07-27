@@ -18,8 +18,8 @@ export class BackendService {
     private isDevelopmentEnvironment: boolean = false;
     private isInitialized = false;
     private initData: Object;
-    private baseUrlProd: string = 'https://rapido-userdata.swisscovery.network/api/v1';
-    private baseUrlEnv: string = 'http://localhost:4201/api/v1';
+    private readonly productionBackendHost = 'https://rapido-userdata.swisscovery.network';
+    private readonly developmentBackendHost = 'http://localhost:4201';
     httpOptions: {};
 
     public todaysRequests: Array<RequestInfo> = [];
@@ -31,8 +31,12 @@ export class BackendService {
         private alert: AlertService,
     ) { }
 
-    private get baseUrl(): string {
-        return this.isDevelopmentEnvironment ? this.baseUrlEnv : this.baseUrlProd;
+    private get backendHost(): string {
+        return this.isDevelopmentEnvironment ? this.developmentBackendHost : this.productionBackendHost;
+    }
+
+    private apiUrl(version: 'v1' | 'v2', path: string): string {
+        return `${this.backendHost}/api/${version}/${path}`;
     }
 
     /**
@@ -68,7 +72,7 @@ export class BackendService {
      */
     async checkIfInstitutionAllowed(): Promise<boolean> {
         return new Promise(resolve => {
-            this.http.get(`${this.baseUrl}/allowed`, this.httpOptions).subscribe(
+            this.http.get(this.apiUrl('v1', 'allowed'), this.httpOptions).subscribe(
                 (data: any) => {
                     resolve(true);
                 },
@@ -88,9 +92,9 @@ export class BackendService {
     async retrieveUserInformation(externalId: string, institution: string = ""): Promise<UserInformation> {
         const params = new URLSearchParams();
         params.set("externalId", externalId);
-        params.set('institution', institution);
+        params.set('institution', institution || '');
         return new Promise((resolve, reject) => {
-            this.http.get(`${this.baseUrl}/user?${params.toString()}`, this.httpOptions).subscribe(
+            this.http.get(`${this.apiUrl('v2', 'user')}?${params.toString()}`, this.httpOptions).subscribe(
                 (data: any) => {
                     resolve(data);
                 },
@@ -108,7 +112,7 @@ export class BackendService {
      */
     async retrieveInstitutions(): Promise<Institution[]> {
         return new Promise((resolve, reject) => {
-            this.http.get(`${this.baseUrl}/institutions`, this.httpOptions).subscribe(
+            this.http.get(this.apiUrl('v1', 'institutions'), this.httpOptions).subscribe(
                 (data: Institution[]) => {
                     resolve(data);
                 },
